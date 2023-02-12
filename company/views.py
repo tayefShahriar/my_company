@@ -133,4 +133,16 @@ class ProfileUpdate(APIView):
             respnse_msg = {"error": True, "message": "profile is not updated"}
         return Response(respnse_msg)
 
-
+class SearchView(APIView):
+    def get(self, request, q):
+        data = {}
+        posts_lookup = (Q(title__icontains = q) |
+                        Q(text__icontains = q) )
+        post_obj = Post.objects.filter(date__lte = timezone.now()).filter(posts_lookup)
+        data['post'] = PostSerializer(post_obj, many=True, context={'request': request}).data
+        service_lookup = (Q(title__icontains = q) |
+                           Q(description__icontains = q) |
+                           Q(features__icontains = q))
+        service_obj = Service.objects.filter(service_lookup)
+        data['service'] = ServiceSerializer(service_obj, many=True, context={'request': request}).data
+        return Response(data)

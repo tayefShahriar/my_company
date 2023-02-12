@@ -28,6 +28,7 @@ import PostDetails from './components/PostDetails';
 import {useStateValue} from './state/StateProvider'
 import Updatepost from './components/Updatepost';
 import { domain } from './env';
+import SearchresultPage from './components/SearchresultPage';
 function App() {
   const [{profile}, dispatch] = useStateValue()
   useEffect(()=>{
@@ -79,6 +80,7 @@ function App() {
       <Route exact path="/service/:id" element={<SingleService/>} />
       <Route exact path="/portfolio/:id" element={<SinglePortfolio/>} />
       <Route exact path = "/details/:id/" element={<PostDetails/>}/>
+      <Route exact path = "/q/:q" element={<SearchresultPage/>} />
       {
           profile !== null ? (
           <>

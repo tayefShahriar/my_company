@@ -22,4 +22,5 @@ urlpatterns = [
     path("profile/", ProfileView.as_view()),
     path("profileupdate/", ProfileUpdate.as_view()),
     path("login/", obtain_auth_token),
+    path('search/<str:q>/', SearchView.as_view()),
 ]

@@ -7,11 +7,30 @@ const Register = () => {
     const [password1, setPassword1] = useState(null)
     const [password2, setPassword2] = useState(null)
     const history = useNavigate()
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
     const registernow = ()=>{
         if(password1 === password2){
             Axios({
                 method: "post",
                 url: `${domain}/api/register/`,
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
                 data: {
                     'email': username,
                     'password': password1,

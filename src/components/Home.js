@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from "react";
 import { useStateValue } from '../state/StateProvider'
 import { Link } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 function Home() {
+  const [text, setText] = useState('');
   const [{profile}, {}] = useStateValue()
+  const history = useNavigate();
+  const search = () => {
+    history(`/q/${text}`);
+  }
     const logoutnow = () => {
         window.localStorage.clear()
         window.location.href = "/"
@@ -58,6 +64,12 @@ function Home() {
           }
           {/* <Link onClick = {logoutnow} className="nav-item nav-link" >Logout</Link> */}
           {/* <li><a className="getstarted scrollto" href="#about">Get Started</a></li> */}
+          &nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <input onChange={(e) => setText(e.target.value)} value={text} type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+          <button type="submit" className="btn btn-outline-primary" disabled={text.length <= 0 ? true : false}
+              onClick={search}>Search</button>
+
         </ul>
         <i className="bi bi-list mobile-nav-toggle"></i>
       </nav>{/* .navbar */}
